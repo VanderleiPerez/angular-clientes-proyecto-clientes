@@ -1,0 +1,61 @@
+<!--ERRORES DE VALIDACIÓN - Spring validation-->
+<ul class="alert alert-danger" *ngIf="errores!.length>0">
+    <li *ngFor="let err of errores" class=" mx-3">{{err}}</li>
+</ul>
+
+<div class=" d-flex justify-content-center">
+    <div class="card  col-lg-6">
+        <div class="card-header">
+            {{titulo}}
+        </div>
+        <div class="card-body">
+            <!--Para ocultar botón si no se valida el form-->
+            <form #clienteForm="ngForm"> 
+                <div class="row mb-3">
+                    <div class="col-lg-12">
+                        <label class="form-label col-lg-2">Nombre</label>
+                        <input type="text" class="form-control" [(ngModel)]="cliente.nombre" name="nombre"
+                         #nombre="ngModel"> <!--#nombre: Contiene msj error | required minlength="4" -->
+                        <div class="alert alert-danger" *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)">
+                            <div *ngIf="nombre.errors?.['required']">Nombre es requerido</div>
+                            <div *ngIf="nombre.errors?.['minlength']">Nombre debe tener al menos 4 caracteres</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-lg-12">
+                        <label class="form-label col-lg-2">Apellido</label>
+                        <input type="text" class="form-control" [(ngModel)]="cliente.apellido" name="apellido"
+                         #apellido="ngModel"> <!-- required-->
+                        <div class="alert alert-danger" *ngIf="apellido.invalid && (apellido.dirty || apellido.touched)">
+                            <div *ngIf="apellido.errors?.['required']">Apellido es requerido</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-lg-12">
+                        <label class="form-label col-lg-2">Email</label>
+                        <input type="text" class="form-control" [(ngModel)]="cliente.email" name="email"
+                          #email="ngModel"> <!-- required email -->
+                        <div class="alert alert-danger" *ngIf="email.invalid && (email.dirty || email.touched)">
+                            <div *ngIf="email.errors?.['required']">Email es requerido</div>
+                            <div *ngIf="email.errors?.['email']">Debe tener un formato válido</div>
+            
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-lg-12">
+                        <button class="btn btn-primary " role="button" (click)='create()' *ngIf="!cliente.id else elseBlock"
+                       >Crear</button><!-- [disabled]="!clienteForm.form.valid"-->
+                        <ng-template #elseBlock>
+                            <button class="btn btn-primary " role="button" (click)='update()'
+                           >Editar</button><!-- [disabled]="!clienteForm.form.valid"-->
+                        </ng-template>
+                        
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

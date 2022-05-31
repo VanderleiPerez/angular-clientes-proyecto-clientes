@@ -1,0 +1,50 @@
+<!-- INICIO CARD -->
+<div class="card">
+    <div class="card-header">CLIENTES</div>
+    <div class="card-body text-primary table-responsive">
+        <h5 class="card-title">Lista de usuarios</h5>
+        <div class="my-2 text-left">
+            <button class="btn btn-primary btn-rounded" type="button" [routerLink]="['/clientes/form']">Crear
+                cliente</button>
+        </div>
+        <table class="table table-bordered text-center " 
+        *ngIf="clientes?.length; else templateTabla">
+            <thead class="table-secondary">
+                <tr>
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Email</th>
+                    <th>Fecha</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let cliente of clientes">
+                    <td>{{cliente.id}}</td>
+                    <td>{{cliente.nombre}}</td>
+                    <td>{{cliente.apellido | uppercase}}</td>
+                    <td>{{cliente.email}}</td>
+                    <td>{{cliente.createAt | date: 'EEEE dd/MM/yyyy'}}</td><!--| date: 'dd-MM-yyyy hh:mm:ss'-->
+                    <td>
+                        <button type="button" name="button"
+                        [routerLink]="['/clientes/form',cliente.id]"
+                        class="btn btn-warning mx-1"
+                        >Editar</button>
+
+                        <button type="button" name="button"
+                        (click)='delete(cliente)'
+                        class=" btn btn-danger mx-1"
+                        >Eliminar
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ng-template #templateTabla>
+            <h5 class="alert alert-info">No hay registro en la base de datos</h5>
+        </ng-template>
+        
+    </div>
+</div>
+<!-- FIN CARD -->
