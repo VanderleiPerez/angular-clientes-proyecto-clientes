@@ -1,6 +1,7 @@
 <!-- INICIO CARD -->
 <div class="card">
     <div class="card-header">CLIENTES</div>
+    <!--table-responsive: evitar que el contenido se salga del card-->
     <div class="card-body text-primary table-responsive">
         <h5 class="card-title">Lista de usuarios</h5>
         <div class="my-2 text-left">
@@ -41,6 +42,8 @@
                 </tr>
             </tbody>
         </table>
+        <!--if relacionado al paginator del padre-->
+        <app-paginator-nav *ngIf="paginador" [paginador]="paginador"></app-paginator-nav>
         <ng-template #templateTabla>
             <h5 class="alert alert-info">No hay registro en la base de datos</h5>
         </ng-template>

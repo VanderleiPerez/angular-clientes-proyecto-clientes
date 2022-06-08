@@ -6,18 +6,26 @@ import { BrowserModule } from '@angular/platform-browser';
 //-- permite realizar peticiones HTTP
 import { HttpClientModule } from "@angular/common/http";
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer/footer.component';
-import { DirectivaComponent } from './directiva/directiva.component';
-import { ClientesComponent } from './clientes/clientes.component';
 import { RouterModule, Routes } from '@angular/router';
-import { FormComponent } from './clientes/form/form.component';
-
 import { FormsModule } from '@angular/forms';
 // localización
 import { registerLocaleData } from '@angular/common';
 // localización
 import  localeES   from "@angular/common/locales/es";
+// Angular material
+import {   MatNativeDateModule } from "@angular/material/core";
+import {  MatDatepickerModule } from "@angular/material/datepicker";
+//import { MatFormFieldModule } from '@angular/material/form-field'; para <map-hint>
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+//COMPONENTES
+import { PaginatorComponent } from './paginator/paginator.component';
+import { FormComponent } from './clientes/form/form.component';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer/footer.component';
+import { DirectivaComponent } from './directiva/directiva.component';
+import { ClientesComponent } from './clientes/clientes.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 //Localización i18n
 registerLocaleData(localeES,'es');
@@ -27,6 +35,7 @@ const routes: Routes = [
   {path: '',redirectTo:'/clientes',pathMatch:'full'},
   {path: 'directivas', component:DirectivaComponent},
   {path: 'clientes', component: ClientesComponent},
+  {path: 'clientes/page/:page', component: ClientesComponent},
   {path: 'clientes/form', component: FormComponent},
   {path: 'clientes/form/:id', component: FormComponent}
 ];
@@ -39,14 +48,19 @@ const routes: Routes = [
     FooterComponent,
     DirectivaComponent,
     ClientesComponent,
-    FormComponent
+    FormComponent,
+    PaginatorComponent
   ],
   //Importar modulos
   imports: [
     BrowserModule,
     HttpClientModule, //Módulo para realizar peticiones HTTP
     FormsModule, // Módulo para realizar formulario
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes), BrowserAnimationsModule,
+    MatDatepickerModule, MatNativeDateModule,
+
+    MatMomentDateModule //-- no implementado (requiere: install npm install --save moment)
+    //MatFormFieldModule 
   ],
   //Importar servicios (Inyección de dependencia)
   providers: [{provide: LOCALE_ID, useValue: 'es'}],

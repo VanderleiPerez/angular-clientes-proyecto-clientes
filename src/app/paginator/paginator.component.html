@@ -1,0 +1,30 @@
+<ul *ngIf="paginas.length>0" class="pagination">
+    <!--VOLVER ATRAS-->
+    <li class="page-item" *ngIf="paginador.number>0">
+        <a class="page-link" [routerLink]="['/clientes/page',paginador.number-1]">&laquo;</a>
+    </li>
+    <!--PRIMERA PÁGINA-->
+    <li [ngClass]="paginador.first?'disabled page-item':'page-item'">
+        <a class="page-link" [routerLink]="['/clientes/page',0]">Primera</a>
+    </li>
+    <!--NÚMERACIÓN CONSECUTIVA-->
+    <!--Directiva ngClass: validar una expresión y colocar estilo-->
+    <li class="page-item" *ngFor="let pagina of paginas" [ngClass]="pagina-1 == paginador.number?'active':''">
+        <!--Eliminar link cuando la página actual sea igual a la del paginador
+        (pagina-1): página actual que viene del backend 'number'
+        paginador: atributo de paginator.component.ts, contiene number del response
+        -->
+        <span *ngIf="(pagina-1) == paginador.number" class="page-link">{{pagina}}</span>
+        <!--Página en el front empieza desde 1, en el backend desde 0-->
+        <a *ngIf="(pagina-1) != paginador.number" class="page-link" [routerLink]="['/clientes/page',pagina-1]">{{pagina}}</a>
+    </li>
+    <!--ÚLTI MA PÁGINA-->
+    <li [ngClass]="paginador.last?'disabled page-item':'page-item'">
+        <a class="page-link" [routerLink]="['/clientes/page',paginador.totalPages-1]">última</a>
+    </li>
+    <!--IR ADELANTE-->
+    <li class="page-item" *ngIf="paginador.number<paginador.totalPages-1">
+        <a class="page-link" [routerLink]="['/clientes/page',paginador.number+1]">&raquo;</a>
+    </li>
+</ul>
+

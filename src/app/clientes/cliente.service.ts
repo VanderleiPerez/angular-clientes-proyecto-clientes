@@ -34,22 +34,21 @@ export class ClienteService {
 
 
   /* ---------------- Metodo LISTAR CLIENTE ----------------*/ 
-  getClientes(): Observable<Cliente[]>{ //Observable Cliente
+  // tipo Cliente se cambió a any para realizar paginación
+  getClientes(page:number): Observable<any[]>{ //Observable Cliente
     //Convertir Listado de clientes en un Observable (STREAM)
     //-- return of(CLIENTES);
     //INICIO FORMA 1 ----- 
-      return this.http.get(this.urlEndPoint).pipe(
-      tap(response=>{ //tap: No cambia el flujo de dato
-        let clientes = response as Cliente[];
-        console.log('cliente.service.ts: ');
-        clientes.forEach(cliente=>{
+      return this.http.get(this.urlEndPoint+'/page/'+page).pipe(
+      tap((response:any)=>{ //tap: No cambia el flujo de dato 
+        console.log('cliente.service.ts: 1');
+        (response.content as Cliente[]).forEach(cliente=>{ //
           console.log('tap1:'+cliente.nombre);
         })
       }),
       
-      map( response => { //map: cambiar datos del flujo
-        let clientes = response as Cliente[];
-        return clientes.map(cliente=>{ // retorna el map del cliente
+      map( (response:any) => { //map: cambiar datos del flujo
+         (response.content as Cliente[]).map(cliente=>{ // retorna el map del cliente
           cliente.nombre=cliente.nombre.toUpperCase();
           
           //Localización i18n - de app.module.ts
@@ -62,10 +61,11 @@ export class ClienteService {
           */
           return cliente; // retorna el map del flujo, observable
         });//map: cambiar valores internos 
+        return response;
       }),
-      tap(response=>{ //tap: No cambia el flujo de dato (es afectado por el map)
-        console.log('cliente.service.ts: ');
-        response.forEach(cliente=>{
+      tap((response:any)=>{ //tap: No cambia el flujo de dato (es afectado por el map)
+        console.log('cliente.service.ts: 2');
+        (response.content as Cliente[]).forEach(cliente=>{
           console.log('tap2:'+cliente.nombre);
         })
       }),

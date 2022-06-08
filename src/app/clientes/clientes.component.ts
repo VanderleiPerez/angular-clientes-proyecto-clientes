@@ -3,7 +3,9 @@ import { Cliente } from './cliente';
 import { ClienteService } from './cliente.service';
 import swal from 'sweetalert2'
 //tap
-import {tap} from 'rxjs/operators'
+import { tap } from 'rxjs/operators'
+//Para la paginación
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-clientes',
   templateUrl: './clientes.component.html'
@@ -11,28 +13,44 @@ import {tap} from 'rxjs/operators'
 export class ClientesComponent implements OnInit {
 
   clientes: Cliente[] = [];
-
+  paginador:any;
   //Inyección de Dependencia
   //Al ser private implicitamente hace this.clienteService=clienteService
-  constructor(private clienteService: ClienteService) {
-  }
-  ngOnInit(): void {
+  constructor(
+    private clienteService: ClienteService,
+    //Suscribe observar cada vez que cambia parámetro PAGE en la ruta, se actualiza LISTADO CLIENTE
+    private activatedRoute: ActivatedRoute) { }
+  ngOnInit() {
+    //Se llama una sola vez, al inicializar
+    //Al navegar entre paginador (cambiando la ruta)
 
     /* ---------------- SERVICES: LISTAR CLIENTE ----------------*/
-    //Suscribir a cliente()
-    this.clienteService.getClientes()
-    .pipe(
-      tap(clientes=>{
-        //Función anónima
-        this.clientes = clientes; //Antes estaba en .subscribe()
-        //propio del tap
-        console.log('cliente.component.ts: ');
-        clientes.forEach(cliente=>{
-          console.log('tap3: '+cliente.nombre);
-        })
-      })
-    )
-    .subscribe();
+    //Suscribir al cambio de parámetro de cambio de página
+    this.activatedRoute.paramMap.subscribe(params => {
+    
+      let page= +params.get('page')! || 0; //paginación
+      //Suscribir a cliente()
+      this.clienteService.getClientes(page)
+        .pipe(
+          tap((response: any) => { //any para la paginación
+            //Función anónima
+            //this.clientes = clientes; //Antes estaba en .subscribe()
+        
+            
+              
+            //propio del tap
+            console.log('cliente.component.ts: ');
+            //clientes.forEach(cliente=>{
+            (response.content as Cliente[]).forEach(cliente => {
+              console.log('tdap3: ' + cliente.nombre);
+            })
+          })
+        )
+        .subscribe(response=>{
+          this.clientes = (response.content as Cliente[]) ;
+          this.paginador = response; //paginacion
+        });
+    });
   }
 
   /* ---------------- SERVICES: ELIMINAR CLIENTE ----------------*/
@@ -51,10 +69,10 @@ export class ClientesComponent implements OnInit {
         //eliminar de la lista el cliente
         this.clienteService.delele(cliente.id).subscribe(
           (response) => {
-            this.clientes = this.clientes.filter(cli=> cli!=cliente)
+            this.clientes = this.clientes.filter(cli => cli != cliente)
             swal.fire(
               '¡Cliente eliminado!',
-              'Cliente '+cliente.nombre+' eliminado con éxito.',
+              'Cliente ' + cliente.nombre + ' eliminado con éxito.',
               'success'
             )
           }

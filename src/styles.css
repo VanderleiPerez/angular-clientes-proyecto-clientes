@@ -7,3 +7,9 @@ body{
     /*igual al footer*/
     margin-bottom: 60px; 
 }
+
+html, body { height: 100%; }
+
+
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
