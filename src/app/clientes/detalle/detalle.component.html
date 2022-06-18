@@ -1,0 +1,67 @@
+<div class="abrir-modal animacion fadeIn" *ngIf="modalService.modal">
+    
+    <div  class="modal" tabindex="-1" style="display:block;" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{titulo}}</h5>
+                    <button (click)="cerrarModal()" type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="column">
+                        <div class="card-body row col-12">
+                            <div class="col-12 col-md-7">
+                                <!--DATOS DEL CLIENTE-->
+                                <!--Validación para que se muestre, solo si cargo cliente-->
+                                <ul *ngIf="cliente" class="list-group">
+                                    <li class="list-group-item active">{{cliente.nombre}}</li>
+                                    <li class="list-group-item">{{cliente.apellido}}</li>
+                                    <li class="list-group-item">{{cliente.email}}</li>
+                                    <li class="list-group-item">{{cliente.createAt | date:"fullDate"}}</li>
+                                </ul>
+                            </div>
+                            <!--VISUALIZAR FOTO-->
+                            <div class="col-12 col-md-5">
+                                <img *ngIf="cliente?.foto" src="http://localhost:8080/api/uploads/img/{{cliente!.foto}}"
+                                    alt="{{cliente.foto" class="img-thumbnail rounded">
+                                <img *ngIf="!cliente?.foto" src="http://localhost:8080/images/imgUserBig.png"
+                                    alt="{{cliente?.foto}}" class="img-thumbnail rounded" style="text-align: center;">
+                            </div>
+                        </div>
+                        <!--UPLOAD-->
+                        <div class="input-group col-12 my-3">
+                            <!--onChange: cuando cambia o selecciona-->
+                            <input (change)="seleccionarFoto($event)" type="file" class="form-control"
+                                id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                            <button (click)="subirFoto()" class="btn btn-outline-secondary" type="button"
+                                id="inputGroupFileAddon04" [disabled]="!fotoSeleccionada">Subir foto</button>
+                        </div>
+                        <!--BARRA DE PROGRESO-->
+                        <div *ngIf="progreso>0"  class="progress mb-3 col-12">
+                            <div class="progress-bar" role="progressbar" [ngStyle]="{width: progreso+'%'}"
+                                attr.aria-valuenow="{{progreso}}" aria-valuemin="0" aria-valuemax="100">
+                                {{progreso}}%
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button (click)="cerrarModal()" type="button" class="btn btn-secondary"
+                        data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!--
+<div class="row d-flex justify-content-center">
+    <div class="card  col-10 col-sm-10 col-md-10 col-lg-8">
+        <div class="card-header">
+            {{titulo}}
+        </div>   
+    </div>
+</div>
+-->

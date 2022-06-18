@@ -6,10 +6,15 @@ html{
 body{
     /*igual al footer*/
     margin-bottom: 60px; 
+    min-height: 100%;
+    margin: 0px;
+    font-family: 'Roboto', sans-serif;
 }
-
-html, body { height: 100%; }
+.wrap{
+    padding-bottom:60px ;
+}
 
 
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
 
