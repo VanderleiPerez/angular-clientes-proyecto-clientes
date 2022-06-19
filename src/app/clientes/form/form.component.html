@@ -45,6 +45,20 @@
                         <!-- required-->
                     </div>
                 </div>
+                <!--inicio regiones-->
+                <div class="row mb-3">
+                    <div class="col-lg-12">
+                        <label class="form-label col-12">Regiones</label>
+                        <div class="col-12">
+                            <select  [compareWith]="compararRegion" class="form-select" [(ngModel)]="cliente.region" name="region" aria-label="Default select example">
+                                <option *ngIf="!cliente.region" [ngValue]="undefined">--- Seleccione una región ---</option> <!--Marcar por defecto-->
+                                <option *ngFor="let region of regiones" [ngValue]="region">{{region.nombre}}</option>
+                            </select>
+                        </div>
+                        <!-- required-->
+                    </div>
+                </div>
+                <!--fin regiones-->
                 <div class="row mb-3">
                     <div class="col-lg-12">
                         <label class="form-label col-lg-2">Email</label>

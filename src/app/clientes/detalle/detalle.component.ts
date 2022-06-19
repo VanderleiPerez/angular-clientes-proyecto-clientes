@@ -76,7 +76,6 @@ export class DetalleComponent implements OnInit {
 
             //EVENT EMITTER para el modal (Actualizar foto en el listado)
             this.modalService.notificarUpload.emit(this.cliente);
-
             swal.fire('La foto se ha subido correctamente!', response.mensaje, 'success');
 
           }

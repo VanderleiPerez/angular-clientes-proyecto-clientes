@@ -13,6 +13,7 @@ import swal from 'sweetalert2';
 import { Router } from '@angular/router';
 // formatear fechas
 import { formatDate, DatePipe, registerLocaleData } from "@angular/common";
+import { Region } from './region';
 
 //Decorador: Rol de la clase (Inyección de depencia)
 @Injectable({
@@ -191,5 +192,9 @@ export class ClienteService {
       return this.http.request(req);
   }
 
+    /* ---------------- Metodo LISTAR REGIONES ----------------*/
+    getRegiones():Observable<Region[]>{
+        return this.http.get<Region[]>(this.urlEndPoint+'/regiones')
+    }
 
 }
