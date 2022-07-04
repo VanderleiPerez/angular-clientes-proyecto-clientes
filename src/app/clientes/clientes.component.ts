@@ -7,6 +7,7 @@ import { tap } from 'rxjs/operators'
 //Para la paginación
 import { ActivatedRoute } from '@angular/router';
 import { ModalService } from './detalle/modal.service';
+import { AuthService } from '../usuarios/auth.service';
 @Component({
   selector: 'app-clientes',
   templateUrl: './clientes.component.html'
@@ -23,7 +24,9 @@ export class ClientesComponent implements OnInit {
     //Suscribe observar cada vez que cambia parámetro PAGE en la ruta, se actualiza LISTADO CLIENTE
     private activatedRoute: ActivatedRoute,
     //Importación modal.services.ts
-    private modalService: ModalService
+    private modalService: ModalService,
+    //Roles
+    public authService: AuthService
   ) { }
   ngOnInit() {
     //Se llama una sola vez, al inicializar
@@ -40,8 +43,6 @@ export class ClientesComponent implements OnInit {
           tap((response: any) => { //any para la paginación
             //Función anónima
             //this.clientes = clientes; //Antes estaba en .subscribe()
-
-
 
             //propio del tap
             console.log('cliente.component.ts: ');

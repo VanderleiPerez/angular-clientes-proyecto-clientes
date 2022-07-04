@@ -1,6 +1,6 @@
 <div class="abrir-modal animacion fadeIn" *ngIf="modalService.modal">
-    
-    <div  class="modal" tabindex="-1" style="display:block;" aria-hidden="true">
+
+    <div class="modal" tabindex="-1" style="display:block;" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -32,7 +32,8 @@
                             </div>
                         </div>
                         <!--UPLOAD-->
-                        <div class="input-group col-12 my-3">
+                        <!--ROLE ADMIN-->
+                        <div *ngIf="authService.hasRole('ROLE_ADMIN')" class="input-group col-12 my-3">
                             <!--onChange: cuando cambia o selecciona-->
                             <input (change)="seleccionarFoto($event)" type="file" class="form-control"
                                 id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
@@ -40,13 +41,49 @@
                                 id="inputGroupFileAddon04" [disabled]="!fotoSeleccionada">Subir foto</button>
                         </div>
                         <!--BARRA DE PROGRESO-->
-                        <div *ngIf="progreso>0"  class="progress mb-3 col-12">
+                        <div *ngIf="progreso>0" class="progress mb-3 col-12">
                             <div class="progress-bar" role="progressbar" [ngStyle]="{width: progreso+'%'}"
                                 attr.aria-valuenow="{{progreso}}" aria-valuemin="0" aria-valuemax="100">
                                 {{progreso}}%
                             </div>
                         </div>
+                        <div class="col-12 mb-3" *ngIf="authService.hasRole('ROLE_ADMIN')">
+                            <button class="btn btn-success btn-sm" [routerLink]="['/facturas/form', cliente?.id]">
+                                Crear Factura</button>
+                        </div>
+                        <div *ngIf="cliente?.facturas?.length==0" class="alert alert-info col-12">
+                            No hay facturas asignadas para el cliente {{cliente?.nombre}} {{cliente?.apellido}}
+                        </div>
+                        <div class="col-12" *ngIf="!(cliente?.facturas?.length==0)">
+                            <table class="table table-bordered text-center  my-4">
+                                <thead class="table-secondary">
+                                    <tr>
+                                        <th>folio</th>
+                                        <th>Descripción</th>
+                                        <th>Fecha</th>
+                                        <th>Total</th>
+                                        <th>Acciones</th>
 
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let factura of cliente?.facturas">
+                                        <td>{{factura.id}}</td>
+                                        <td>{{factura.descripcion}}</td>
+                                        <td>{{factura.createAt}}</td>
+                                        <td>{{factura.total}}</td>
+                                        <td>
+                                            <button class="btn btn-primary btn-sm mx-1" type="button"
+                                                [routerLink]="['/facturas',factura.id]">Ver</button>
+                                            <button *ngIf="authService.hasRole('ROLE_ADMIN')"
+                                                class="btn btn-danger btn-sm mx-1" type="button"
+                                                (click)="delete(factura)">Eliminar</button>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -5,6 +5,10 @@ import { ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2'
 import { HttpEventType } from '@angular/common/http';
 import { ModalService } from './modal.service';
+import { AuthService } from '../../usuarios/auth.service';
+import { FacturasService } from '../../facturas/services/facturas.service';
+import { Factura } from '../../facturas/models/factura';
+
 @Component({
   selector: 'app-detalle-cliente',
   templateUrl: './detalle.component.html',
@@ -23,7 +27,10 @@ export class DetalleComponent implements OnInit {
     private clienteService: ClienteService,
     //suscribir cuando cambia parámetro del ID (Con modal ya no se usa)
     //private activatedRoute: ActivatedRoute,
-    public modalService: ModalService
+    public modalService: ModalService,
+    //Roles
+    public authService: AuthService,
+    public facturaService: FacturasService
   ) { }
 
   //NGONINIT
@@ -88,6 +95,36 @@ export class DetalleComponent implements OnInit {
     this.modalService.cerrarModalService();
     this.fotoSeleccionada = null!;
     this.progreso = 0;
+  }
+
+    /* ---------------- SERVICES: ELIMINAR FACTURA ----------------*/
+
+  delete(factura:Factura): void{
+    swal.fire({
+      title: '¿Estás seguro?',
+      text: '¿Seguro que desea eliminar la factura ' + factura.descripcion+'?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminar',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        //eliminar de la lista el cliente
+        this.facturaService.delete(factura.id).subscribe(
+          ( ) => {
+            this.cliente!.facturas = this.cliente!.facturas?.filter(cli => cli != factura)
+            swal.fire(
+              'Factura eliminada!',
+              'Factura ' + factura.descripcion + ' eliminado con éxito.',
+              'success'
+            )
+          }
+        )
+
+      }
+    })
   }
 
 

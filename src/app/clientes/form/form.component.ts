@@ -76,6 +76,8 @@ export class FormComponent implements OnInit {
   //actualizar cliente
   update(): void {
     console.log(this.cliente);
+    //evitar recursión(no actualizar sus facturas)
+    this.cliente.facturas!=null;
     this.clienteService.update(this.cliente).subscribe(
       {
         next: (clienteA) => {

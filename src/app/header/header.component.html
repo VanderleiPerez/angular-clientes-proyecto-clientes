@@ -1,24 +1,40 @@
 <!-- INICIO NAVBAR -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <a class="navbar-brand" href="#">{{titleNav}}</a>
-      <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" routerLink="/clientes">Clientes</a>
-          </li>
-          <!--<li class="nav-item" routerLinkActive="active">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03"
+      aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="#">{{titleNav}}</a>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" routerLink="/clientes">Clientes</a>
+        </li>
+        <!--<li class="nav-item" routerLinkActive="active">
             <a class="nav-link" routerLink="/directivas">Directivas</a>
           </li>-->
-          <!--<li class="nav-item" routerLinkActive="active">
+        <!--<li class="nav-item" routerLinkActive="active">
             <a class="nav-link" routerLink="/clientes">Clientes</a>
           </li>-->
-        
-        </ul>
-      </div>
+
+      </ul>
+      <ul class="navbar-nav navbar-right mx-5">
+        <li *ngIf="!authService.isAutheticated()"><a [routerLink]="['/login']" class="btn  btn-outline-light">Iniciar
+            sesión</a></li>
+
+        <li *ngIf="authService.isAutheticated()" class="dropdown">
+          <a class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            {{authService.usuario.username}}
+          </a>
+
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <button (click)="logout()" class="dropdown-item" type="submit">Salir</button>
+          </div>
+        </li>
+      </ul>
     </div>
-  </nav>
-  <!-- FIN NAVBAR -->
+  </div>
+</nav>
+<!-- FIN NAVBAR -->

@@ -1,0 +1,56 @@
+<div class="card-light mb-5" *ngIf="factura">
+    <div class="card-header">
+        <h3>{{titulo}}: {{factura?.descripcion}}</h3>
+    </div>
+    <div class="card-body">
+        <h4 class="card-title">
+            <a [routerLink]="['/clientes']" class="btn btn-secondary btn-xs">&laquo; volver</a>
+        </h4>
+    </div>
+    <ul class="list-group my-2">
+        <li class="list-group-item active">Datos del cliente</li>
+        <li class="list-group-item">{{factura?.cliente?.nombre}}</li>
+        <li class="list-group-item">{{factura?.cliente?.apellido}}</li>
+    </ul>
+    <ul class="list-group my-2">
+        <li class="list-group-item active">Datos de la factura</li>
+        <li class="list-group-item">Folio: {{factura?.id}}</li>
+        <li class="list-group-item">Descripción: {{factura?.descripcion}}</li>
+        <li class="list-group-item">Fecha: {{factura?.createAt}}</li>
+    </ul>
+
+
+    <table   class="table table-bordered text-center ">
+        <thead class="table-secondary">
+            <tr>
+                <th>Producto</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of factura.items">
+                <td>{{item.producto.nombre}}</td>
+                <td>{{item.producto.precio}}</td>
+                <td>{{item.cantidad}}</td>
+                <td>{{item.importe}}</td>
+
+            </tr>
+        </tbody>
+    </table>
+    <h5 class="float-end ">
+        <span>Total</span>: <span class="btn btn-primary">S/.{{factura.total}}</span>
+    </h5>
+
+    <div class="card border my-3 col-10">
+        <div class="card-header">
+            Observaciones
+        </div>
+        <div class="card-body">
+            <p *ngIf="factura.observacion">{{factura.observacion}}</p>
+            <p *ngIf="!factura.observacion">No tiene Observación</p>
+        </div>
+    </div>
+
+</div>
